@@ -11,7 +11,7 @@ import requests
 from airflow.providers.amazon.aws.operators.s3 import S3CreateObjectOperator
 import json
 
-MY_S3_KEY = "s3://mapping_usecase"
+MY_S3_KEY = "s3://stripe-astro/mapping_usecase"
 AWS_CONN_ID = "aws_default"
 MY_COUNTRY_1 = "US"
 MY_COUNTRY_2 = "CH"
