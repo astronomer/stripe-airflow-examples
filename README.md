@@ -3,6 +3,7 @@ Overview
 
 Welcome to Astronomer! This project was generated after you ran 'astro dev init' using the Astronomer CLI. This readme describes the contents of the project, as well as how to run Apache Airflow on your local machine.
 
+
 Project Contents
 ================
 
@@ -17,6 +18,53 @@ Your Astro project contains the following files and folders:
 - requirements.txt: Install Python packages needed for your project by adding them to this file. It is empty by default.
 - plugins: Add custom or community plugins for your project to this file. It is empty by default.
 - airflow_settings.yaml: Use this local-only file to specify Airflow Connections, Variables, and Pools instead of entering them in the Airflow UI as you develop DAGs in this project.
+
+# DAGs
+
+The following sections list the DAGs shown sorted by the feature that they showcase. You can filter DAGs in the UI by their `tags`.
+
+### Datasets and Data-Aware Scheduling
+
+DAGs that demonstrate how upstream DAGs and trigger a downstream DAG based on data availability.  For further details see our how-to [documentation](https://docs.astronomer.io/learn/airflow-datasets)
+
+Five DAGs:
+
+- `dataset_upstream1`: Upstream DAG 1 with a simple `BashOperator` as an Outlet
+- `dataset_upstream2`: Upstream DAG 2 with two simple `BashOperator`s as Outlets
+- `datasets_downstream1`: Simple DAG that is schedule based on the completion of the two upstream Datasets
+- `downstream_dataset_taskflow_toy`: Upstream DAG with Outlet using the Taskflow API
+- `upstream_dataset_taskflow_toy.py`: Taskflow downstream DAG schedule based on the completion of the above DAG
+
+### Setup/ teardown
+
+DAGs that showcase the `setup` and `teardown` tasks added in Airflow 2.7. For further information see the [setup/teardown guide](https://docs.astronomer.io/learn/airflow-setup-teardown).
+
+Three toy DAGs:
+
+- `toy_setup_teardown_simple`: Shows a very simple setup/ teardown workflow to nest setup/ teardown tasks with empty `@task` tasks.
+- `toy_setup_teardown_nesting`: Shows how to nest setup/ teardown tasks with empty `@task` tasks.
+
+### Dynamic Task Mapping
+
+DAGS that highlight how to dynamically generate parallel tasks at runtime with dynamic task mapping.  For further details see the [Dynamic Task Mapping Documentation](https://docs.astronomer.io/learn/dynamic-tasks)
+
+- `dynamic_task_mapping`: This DAG shows 5 different examples for Airflow's dynamic mapping features.
+- `task_group_mapping_usecase`: Dynamic tasks mapping in a task group
+
+### Fail/Stop
+
+DAG to demonstrate new parameter that stops DAG execution as soon as one task in this DAG fails.
+
+- `fail_stop`: DAG that has `fail_stop` enabled with tasks that take different amounts of time to finish.
+
+### Other
+
+DAGs that showcase other features.
+
+- `pythonsensor_example`: DAG showing how to create a custom Sensor with the PythonSensor
+- `sensor_decorator`: DAG showing how to create a custom Sensor with the Sensor Decorator
+- `toy_deferrable_operators_config`: Shows how to use the `deferrable` parameter in the `TriggerDagRunOperator` to defer the execution of a DAG. The config that was added in 2.7 is set to `True` in the Dockerfile `ENV AIRFLOW__OPERATORS__DEFAULT_DEFERRABLE=True`.
+- `helper_dag_wait_30_seconds`: DAG that is triggered by the TriggerDagRunOperator in the `toy_deferrable_operators_config` DAG. It waits 30 seconds before completing.
 
 Deploy Your Project Locally
 ===========================
